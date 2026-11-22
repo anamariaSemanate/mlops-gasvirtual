@@ -4,7 +4,7 @@
     {
       "label": "0 · Crear entorno e instalar dependencias",
       "type": "shell",
-      "command": "py -3.12 -m venv C:\\venvs\\mlops-gasvirtual; C:\\venvs\\mlops-gasvirtual\\Scripts\\python.exe -m pip install --upgrade pip; C:\\venvs\\mlops-gasvirtual\\Scripts\\python.exe -m pip install -r requirements.txt",
+      "command": "py -3.12 -m venv $env:USERPROFILE\\venvs\\mlops-gv; & $env:USERPROFILE\\venvs\\mlops-gv\\Scripts\\python.exe -m pip install --upgrade pip; & $env:USERPROFILE\\venvs\\mlops-gv\\Scripts\\python.exe -m pip install -r requirements.txt",
       "options": {
         "cwd": "${workspaceFolder}",
         "shell": {
@@ -22,7 +22,7 @@
     {
       "label": "1 · MLflow",
       "type": "process",
-      "command": "${config:python.defaultInterpreterPath}",
+      "command": "${command:python.interpreterPath}",
       "args": [
         "-m",
         "mlflow",
@@ -45,7 +45,7 @@
     {
       "label": "2 · Preprocesar datos",
       "type": "process",
-      "command": "${config:python.defaultInterpreterPath}",
+      "command": "${command:python.interpreterPath}",
       "args": [
         "-m",
         "src.data"
@@ -62,7 +62,7 @@
     {
       "label": "3 · Entrenar modelos",
       "type": "process",
-      "command": "${config:python.defaultInterpreterPath}",
+      "command": "${command:python.interpreterPath}",
       "args": [
         "-m",
         "src.train"
@@ -79,7 +79,7 @@
     {
       "label": "4 · Registrar champion",
       "type": "process",
-      "command": "${config:python.defaultInterpreterPath}",
+      "command": "${command:python.interpreterPath}",
       "args": [
         "-m",
         "src.register_model"
@@ -96,7 +96,7 @@
     {
       "label": "5 · Prueba de predicción",
       "type": "process",
-      "command": "${config:python.defaultInterpreterPath}",
+      "command": "${command:python.interpreterPath}",
       "args": [
         "-m",
         "src.predict"
@@ -124,7 +124,7 @@
     {
       "label": "6 · API FastAPI",
       "type": "process",
-      "command": "${config:python.defaultInterpreterPath}",
+      "command": "${command:python.interpreterPath}",
       "args": [
         "-m",
         "uvicorn",
@@ -148,7 +148,7 @@
     {
       "label": "7 · Streamlit",
       "type": "process",
-      "command": "${config:python.defaultInterpreterPath}",
+      "command": "${command:python.interpreterPath}",
       "args": [
         "-m",
         "streamlit",
@@ -177,7 +177,7 @@
     {
       "label": "9 · Simular operación",
       "type": "process",
-      "command": "${config:python.defaultInterpreterPath}",
+      "command": "${command:python.interpreterPath}",
       "args": [
         "scripts/simular_operacion.py",
         "--pausa",
@@ -207,7 +207,7 @@
     {
       "label": "Pruebas (pytest)",
       "type": "process",
-      "command": "${config:python.defaultInterpreterPath}",
+      "command": "${command:python.interpreterPath}",
       "args": [
         "-m",
         "pytest",

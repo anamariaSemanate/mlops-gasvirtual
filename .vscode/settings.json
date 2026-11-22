@@ -1,5 +1,4 @@
 {
-  "python.defaultInterpreterPath": "C:\\venvs\\mlops-gasvirtual\\Scripts\\python.exe",
   "python.terminal.activateEnvironment": true,
   "python.testing.pytestEnabled": true,
   "python.testing.pytestArgs": [

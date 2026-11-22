@@ -76,12 +76,12 @@ La clave para revertir (`clave_anonimizacion.json`) y la lista de estaciones que
 El entorno se crea **fuera de OneDrive** y en una ruta corta: TensorFlow tiene archivos con rutas muy largas y Windows no admite más de 260 caracteres (además, OneDrive intentaría sincronizar ~2 GB).
 
 ```powershell
-py -3.12 -m venv C:\venvs\mlops-gasvirtual
-C:\venvs\mlops-gasvirtual\Scripts\activate
+py -3.12 -m venv $env:USERPROFILE\venvs\mlops-gv
+& $env:USERPROFILE\venvs\mlops-gv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-TensorFlow requiere Python 3.12 o anterior. En VS Code, las tareas de `.vscode/tasks.json` (Terminal → Run Task) ya usan ese entorno.
+TensorFlow requiere Python 3.12 o anterior. En VS Code, las tareas de `.vscode/tasks.json` (Terminal → Run Task) usan el intérprete que elijas en *Python: Select Interpreter* (elige `...\venvs\mlops-gv\Scripts\python.exe`).
 
 **Terminal 1 · MLflow**
 ```powershell
