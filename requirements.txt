@@ -1,0 +1,15 @@
+mlflow
+pandas
+numpy
+pyarrow
+scikit-learn
+tensorflow
+matplotlib
+fastapi
+uvicorn
+streamlit
+requests
+prometheus-client
+python-dotenv
+pytest
+httpx

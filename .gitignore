@@ -1,0 +1,21 @@
+# Datos reales y clave de anonimización: NUNCA se suben
+clave_anonimizacion.json
+estaciones_combinar.json
+datos_reales/
+*_base.parquet
+*.xlsx
+
+# Entorno y artefactos locales
+.venv/
+__pycache__/
+*.pyc
+mlruns/
+mlartifacts/
+data/monitoring/*.csv
+.ipynb_checkpoints/
+
+# Datos generados (se recrean con python -m src.data)
+data/processed/*.parquet
+reports/metrics/*.csv
+reports/figures/*.png
+mlflow.db

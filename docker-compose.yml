@@ -1,0 +1,22 @@
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: gasvirtual-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: gasvirtual-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      # Conecta Prometheus y carga el tablero automáticamente (no hay que crearlo a mano)
+      - ./docker/grafana/provisioning:/etc/grafana/provisioning
+      - ./docker/grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus

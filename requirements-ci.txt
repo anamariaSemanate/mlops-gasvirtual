@@ -1,0 +1,11 @@
+# Dependencias livianas para GitHub Actions (las pruebas no entrenan ni usan TensorFlow)
+mlflow
+pandas
+numpy
+pyarrow
+fastapi
+uvicorn
+requests
+prometheus-client
+pytest
+httpx

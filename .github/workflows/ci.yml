@@ -1,0 +1,39 @@
+name: CI - MLOps GasVirtual
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-ci.txt
+
+      - name: Verificar que la clave de anonimización no esté en el repositorio
+        run: |
+          if git ls-files | grep -E "clave_anonimizacion|estaciones_combinar|_base\.parquet|\.xlsx$"; then
+            echo "::error::Hay archivos privados en el repositorio"; exit 1
+          fi
+
+      - name: Verificar sintaxis
+        run: python -m compileall -q src api app scripts
+
+      - name: Ejecutar preprocesamiento
+        run: python -m src.data
+
+      - name: Ejecutar pruebas
+        run: pytest -q
