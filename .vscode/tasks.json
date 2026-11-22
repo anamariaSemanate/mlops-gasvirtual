@@ -1,0 +1,235 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "0 · Crear entorno e instalar dependencias",
+      "type": "shell",
+      "command": "py -3.12 -m venv .venv; .venv\\Scripts\\python.exe -m pip install --upgrade pip; .venv\\Scripts\\python.exe -m pip install -r requirements.txt",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "powershell.exe",
+          "args": [
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "Bypass",
+            "-Command"
+          ]
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "1 · MLflow",
+      "type": "process",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "args": [
+        "-m",
+        "mlflow",
+        "server",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "5000"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always",
+        "group": "servicios"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "2 · Preprocesar datos",
+      "type": "process",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "args": [
+        "-m",
+        "src.data"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "3 · Entrenar modelos",
+      "type": "process",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "args": [
+        "-m",
+        "src.train"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "4 · Registrar champion",
+      "type": "process",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "args": [
+        "-m",
+        "src.register_model"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "5 · Prueba de predicción",
+      "type": "process",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "args": [
+        "-m",
+        "src.predict"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Pipeline completo (2→5)",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "2 · Preprocesar datos",
+        "3 · Entrenar modelos",
+        "4 · Registrar champion",
+        "5 · Prueba de predicción"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "6 · API FastAPI",
+      "type": "process",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "args": [
+        "-m",
+        "uvicorn",
+        "api.main:app",
+        "--reload",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "8000"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always",
+        "group": "servicios"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "7 · Streamlit",
+      "type": "process",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "args": [
+        "-m",
+        "streamlit",
+        "run",
+        "app/streamlit_app.py"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always",
+        "group": "servicios"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "8 · Prometheus y Grafana (Docker)",
+      "type": "shell",
+      "command": "docker compose up -d",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "9 · Simular operación",
+      "type": "process",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "args": [
+        "scripts/simular_operacion.py",
+        "--pausa",
+        "30",
+        "--repeticiones",
+        "3"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Iniciar servicios (MLflow + API + Streamlit)",
+      "dependsOrder": "parallel",
+      "dependsOn": [
+        "1 · MLflow",
+        "6 · API FastAPI",
+        "7 · Streamlit"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Pruebas (pytest)",
+      "type": "process",
+      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "args": [
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Detener Docker",
+      "type": "shell",
+      "command": "docker compose down",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
